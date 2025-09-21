@@ -19,7 +19,7 @@ public class EndlessLevelController : MonoBehaviour
     
     private void MakeLevelFromBoggleAlgorithm()
     {
-        boggleGame = new BoggleGame(rowCount, columnCount, DataLoader.Instance.GetSetOfAllRandomNames());
+        boggleGame = new BoggleGame(rowCount, columnCount);
         gridManager.InitializeGrid(boggleGame.GetBoard());
     }
 
