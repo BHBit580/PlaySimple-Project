@@ -15,14 +15,15 @@ The endless mode follows this sequence:
 
 3. **Event-Driven Updates**: When new words are formed, an event is triggered. The EndlessLevelController listens to this event, retrieves new matrix data from BoggleGame indicating which positions need new letters, then instructs the grid to update accordingly. The GridManager handles the tile replacement animations.
 
-## Scoring System Clarification
-The scoring system requirements contained some ambiguity regarding whether different characters should have varying point values. To maintain simplicity and functionality, I implemented a uniform scoring system where each character is worth the same value (1 point).
+## Scoring Value Clarification from the assignment
+The Assignment requirements contained some ambiguity regarding whether different characters should have varying point values. To maintain simplicity and functionality, I implemented a uniform scoring system where each character is worth the same value (1 point).
+
+Issue was which character to give what points , i mean that was confusing so i made all character points same
 
 **Examples:**
 - **APPLE = 5 points**
 - **PIG = 3 points**
 
-This approach keeps the system straightforward and fully functional.
 
 ## Level Mode Flow
 The level mode operates as follows:
