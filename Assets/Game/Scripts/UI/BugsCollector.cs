@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class BugsCollector : MonoBehaviour
 {
+    [SerializeField] private VoidEventChannelSO bugsCollectedEvent;
     [SerializeField] private TextMeshProUGUI bugsText;
     [SerializeField] private LevelController levelController;
-    [SerializeField] private TileAbilityManager tileAbilityManager;
     [SerializeField] private GameObject panel;
     [SerializeField] private Image bugImage;
     
@@ -16,9 +16,9 @@ public class BugsCollector : MonoBehaviour
     private int _totalBugsInLevel;
     private void Start()
     {
-        TryCheckIfLevelHasBugs();
+        bugsCollectedEvent.RegisterListener(OnBugCollected);
         UpdateBugDisplay();
-        tileAbilityManager.BugsCollected += OnBugCollected;
+        TryCheckIfLevelHasBugs();
     }
     
     private void TryCheckIfLevelHasBugs()
@@ -75,6 +75,6 @@ public class BugsCollector : MonoBehaviour
     
     private void OnDestroy()
     {
-        tileAbilityManager.BugsCollected -= OnBugCollected;
+        bugsCollectedEvent.UnregisterListener(OnBugCollected);
     }
 }

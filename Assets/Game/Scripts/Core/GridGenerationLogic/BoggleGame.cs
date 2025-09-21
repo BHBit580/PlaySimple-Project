@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 // A very simple class which till take valid words and will return 2d char matrix that will be used to form grid
@@ -43,7 +42,7 @@ public class BoggleGame
         "city", "town", "road", "street", "park", "shop", "store", "market", "church", "bridge"
     };
 
-    public BoggleGame(int rows, int cols)
+    public BoggleGame(int rows, int cols)                   
     {
         this.rows = rows;
         this.cols = cols;
@@ -54,7 +53,7 @@ public class BoggleGame
 
     public char[,] AddNewLettersToBoard(char[,] boardWithEmpty)                      //A very simple algo currently in future we can add like sensible names 
     {
-        for (int i = 0; i < rows; i++)
+        for (int i = 0; i < rows; i++)                                              
         {
             for (int j = 0; j <cols; j++)
             {

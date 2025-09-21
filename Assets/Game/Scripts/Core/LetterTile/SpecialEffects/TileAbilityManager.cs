@@ -7,9 +7,9 @@ using UnityEngine;
 public class TileAbilityManager : MonoBehaviour
 {
     [SerializeField] private DataEventChannelSO onNewWordFormedEvent;
+    [SerializeField] private VoidEventChannelSO bugsCollectedEvent;
     [SerializeField] private GridManager gridManager;
     private readonly RockBreaker _rockBreaker = new();
-    public event Action BugsCollected;
     
     private void Start()
     {
@@ -37,7 +37,7 @@ public class TileAbilityManager : MonoBehaviour
             if(tile.CurrentTileType == TileType.Bug)
             {
                 tile.SetTileType(TileType.Normal);
-                BugsCollected?.Invoke();
+                bugsCollectedEvent?.RaiseEvent();
             }
         }
     }

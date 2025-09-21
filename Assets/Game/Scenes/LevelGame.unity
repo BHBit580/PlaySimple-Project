@@ -588,6 +588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onNewWordFormedEvent: {fileID: 11400000, guid: b2d65debf4993ad47ad24d17e2f02072, type: 2}
+  bugsCollectedEvent: {fileID: 11400000, guid: d90f9af29660a5a46af195394d532d91, type: 2}
   gridManager: {fileID: 1299169554}
 --- !u!4 &464832786
 Transform:
@@ -1109,9 +1110,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c89f89ad5f97e0d4c8b4e7b5acd40bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bugsCollectedEvent: {fileID: 11400000, guid: d90f9af29660a5a46af195394d532d91, type: 2}
   bugsText: {fileID: 1814620778}
   levelController: {fileID: 1852383603}
-  tileAbilityManager: {fileID: 464832785}
   panel: {fileID: 124393549}
   bugImage: {fileID: 1413469098}
 --- !u!1 &1043196708
@@ -2396,6 +2397,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6486322293050574098, guid: ec4cc550211c5984cb1000b83a0094d3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7343157983033972278, guid: ec4cc550211c5984cb1000b83a0094d3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7343157983033972278, guid: ec4cc550211c5984cb1000b83a0094d3, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7343157983033972278, guid: ec4cc550211c5984cb1000b83a0094d3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7343157983033972278, guid: ec4cc550211c5984cb1000b83a0094d3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8363698045507175969, guid: ec4cc550211c5984cb1000b83a0094d3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8363698045507175969, guid: ec4cc550211c5984cb1000b83a0094d3, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8363698045507175969, guid: ec4cc550211c5984cb1000b83a0094d3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8363698045507175969, guid: ec4cc550211c5984cb1000b83a0094d3, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
