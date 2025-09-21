@@ -1,57 +1,63 @@
-**Word Boggle Project - Technical Implementation Explanation**
+# Word Boggle Project - Technical Implementation Explanation
 
-**Event System Architecture**
-In this project, I used **ScriptableObject events** as the core communication system. I really like this concept because it allows classes to communicate without direct references to each other. A dedicated ScriptableObject handles the events, and classes can simply subscribe to it and do their job.
+## Event System Architecture
+In this project, I implemented ScriptableObject events as the core communication system. This approach is particularly effective because it allows classes to communicate without requiring direct references to each other. A dedicated ScriptableObject handles the events, and classes can simply subscribe to it and execute their respective functions.
 
-For example, with a "game over" event, many different conditions can trigger it, but ideally you shouldn't worry about where it triggers. You just take a reference to that event and handle it accordingly. This **maintains independence** between systems and promotes loose coupling.
+## Core Architecture
+The basic unit of the system is the LetterTile, and I have a GridManager that handles the spawning and destruction of tiles.
 
-**Core Architecture**
-My basic unit is the **LetterTile**, and I have a **GridManager** that handles the spawning and destroying of tiles.
+## Endless Mode Flow
+The endless mode follows this sequence:
 
-**Endless Mode Flow**
-Let's start with endless mode:
-1. **BoggleGame Class**: There's a dedicated class called BoggleGame that creates a 2D char matrix using a word placement algorithm.
-2. **EndlessLevelController**: This gets the matrix from BoggleGame, then initializes the GridManager, and grid spawning starts.
-3. **Event-Driven Updates**: When new words are formed, an event is raised. The EndlessLevelController listens to this event, gets new matrix data from the BoggleGame about which positions need new letters, then tells the grid to update accordingly. The GridManager handles the tile replacement animations.
+1. **BoggleGame Class**: A dedicated class called BoggleGame creates a 2D character matrix using a word placement algorithm.
 
-**Scoring System Clarification**
-To be honest, I didn't fully understand the scoring system requirements - like whether different characters should have different point values. There was some ambiguity in the assignment, so I made each character worth the same value (1 point).
+2. **EndlessLevelController**: This component retrieves the matrix from BoggleGame, initializes the GridManager, and begins grid spawning.
 
-**Example**:
-* APPLE = 5 points
-* PIG = 3 points
+3. **Event-Driven Updates**: When new words are formed, an event is triggered. The EndlessLevelController listens to this event, retrieves new matrix data from BoggleGame indicating which positions need new letters, then instructs the grid to update accordingly. The GridManager handles the tile replacement animations.
 
-This keeps it simple and functional.
+## Scoring System Clarification
+The scoring system requirements contained some ambiguity regarding whether different characters should have varying point values. To maintain simplicity and functionality, I implemented a uniform scoring system where each character is worth the same value (1 point).
 
-**Level Mode Flow**
-Now for level mode:
-1. **DataLoader**: I have level data that gets parsed by the DataLoader class.
-2. **LevelController**: This fetches the parsed data (around 10 levels' worth) and randomly selects one level to play.
-3. **GridManager Integration**: The LevelController tells the GridManager to spawn the specific grid based on the selected level data.
+**Examples:**
+- **APPLE = 5 points**
+- **PIG = 3 points**
+
+This approach keeps the system straightforward and fully functional.
+
+## Level Mode Flow
+The level mode operates as follows:
+
+1. **DataLoader**: Level data is parsed by the DataLoader class.
+
+2. **LevelController**: This component retrieves the parsed data (approximately 10 levels) and randomly selects one level for gameplay.
+
+3. **GridManager Integration**: The LevelController instructs the GridManager to spawn the specific grid based on the selected level data.
+
 4. **Tile Properties**: When the GridManager spawns tiles, it also initializes their properties (Normal, Rock, Bug) based on the level data.
-5. **TileAbilityManager**: There's a dedicated class managing tile abilities. When new words are formed, it determines what happens to special tiles (like how to destroy rocks or collect bugs).
 
-**What I Would Do Differently With More Time**
+5. **TileAbilityManager**: A dedicated class manages tile abilities. When new words are formed, it determines the behavior of special tiles (such as how to destroy rocks or collect bugs).
 
-**1. Improved Ability System**
-My **TileAbilityManager** needs improvement. Currently, for this simple project, there are only 2 abilities, but if there were 10+ abilities, there should ideally be a **dedicated ability type management system** with:
-* Individual ability classes
-* An ability factory pattern
-* A more scalable ability registration system
+## What I Would Do Differently With More Time
 
-**2. Enhanced Challenge Management System**
-The current challenge management system is simple and works fine, but I think it could be **more scalable and better structured** with:
-* A strategy pattern for different challenge types
-* More flexible objective combinations
-* Better progression tracking
-* Configurable challenge parameters
+### 1. Improved Word Generation Algorithms – IMPORTANT
+Currently, the word generation in infinite mode for Word Boggle is very simple. I could make it much better and implement the bonus tasks that were given in the assignment. This is the highest priority improvement needed for the system.
 
-**3. Advanced Features**
-* More sophisticated word generation algorithms
-* A save/load system for progression
+### 2. Improved Ability System
+The current TileAbilityManager requires enhancement. While it works adequately for this simple project with only 2 abilities, a system with 10+ abilities would benefit from a dedicated ability type management system featuring:
+- **Individual ability classes**
+- **An ability factory pattern**
+- **A more scalable ability registration system**
 
-Due to the limited time constraint, I prioritized:
-* **Functional architecture** 
-* **Working features**
-* **Clean separation of concerns** 
-* **Event-driven design**
+### 3. Enhanced Challenge Management System
+The current challenge management system is functional but could be more scalable and better structured with:
+- **A strategy pattern for different challenge types**
+- **More flexible objective combinations**
+- **Better progression tracking**
+
+## Conclusion
+Due to time constraints, I prioritized:
+- **Functional architecture**
+- **Working features**
+- **Clean separation of concerns**
+
+The current implementation provides a solid foundation that can be expanded and refined in future iterations.
