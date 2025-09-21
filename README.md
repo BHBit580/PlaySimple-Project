@@ -1,167 +1,67 @@
-# Word Boggle Game
+Word Boggle Project - Technical Implementation Explanation
+Event System Architecture
+In this project, I used ScriptableObject events as the core communication system. I really like this concept because it allows classes to communicate without direct references to each other. A dedicated ScriptableObject handles the events, and classes can simply subscribe to it and do their job.
+For example, with a "game over" event, many different conditions can trigger it, but ideally you shouldn't worry about where it will trigger. You just take a reference to that event and handle it accordingly. This maintains independence between systems and promotes loose coupling.
+Core Architecture
+My basic unit is the LetterTile, and I have a GridManager that handles spawning and destroying of tiles.
+Endless Mode Flow
+Let's start with endless mode:
+BoggleGame Class: There's a dedicated class called BoggleGame that creates a 2D char matrix using a word placement algorithm.
 
-A Unity-based implementation of the classic word-finding puzzle game with both endless and level-based gameplay modes.
 
-## Overview
+EndlessLevelController: This gets the matrix from BoggleGame, then initializes the GridManager, and grid spawning starts.
 
-This project implements a Word Boggle game in Unity 2022.3.32f1+ featuring drag-to-select word formation, special tile mechanics, and multiple challenge types. The focus is on clean architecture and modular design rather than visual polish.
 
-## Features
+Event-Driven Updates: When new words are formed, an event is raised. The EndlessLevelController listens to this event, gets new matrix data from the BoggleGame about which positions need new letters, then tells the grid to update accordingly. The GridManager handles the tile replacement animations.
 
-### Game Modes
-- **Endless Mode**: 4x4 grid with dynamic letter replacement
-- **Level Mode**: Static grids with objectives and special tiles
 
-### Core Mechanics
-- Drag-to-select word formation with visual connection lines
-- Adjacent tile selection (8-directional)
-- Dictionary-based word validation
-- Real-time scoring system
 
-### Special Tiles (Level Mode)
-- **Bug Tiles**: Collectible bonus rewards
-- **Rock Tiles**: Blocked tiles that can be cleared by adjacent words
-- **Normal Tiles**: Standard letter tiles
 
-### Challenge Types
-1. Make X words
-2. Reach X score in Y time
-3. Make X words in Y time
 
-## Installation & Setup
 
-### Requirements
-- Unity 2022.3.32f1 or newer
-- DOTween (for animations)
-- TextMeshPro (for UI text)
+Scoring System Clarification
+To be honest, I didn't fully understand the scoring system requirements - like whether different characters should have different point values. There was some ambiguity in the assignment, so I made each character worth the same value (1 point).
+Example:
+APPLE = 5 points
+PIG = 3 points
+This keeps it simple and functional.
 
-### Setup Steps
-1. Clone/download the project
-2. Open in Unity 2022.3.32f1+
-3. Ensure DOTween is imported via Package Manager
-4. Assign word dictionary text file to DataLoader
-5. Configure level data JSON file (optional)
-6. Build and run
+Level Mode Flow
+Now for level mode:
+DataLoader: I have level data that gets parsed by the DataLoader class.
 
-## How to Play
 
-### Endless Mode
-1. Drag across adjacent letters to form words
-2. Words must be at least 3 letters long
-3. Used letters disappear and new ones drop from top
-4. Score points based on word length
+LevelController: This fetches the parsed data (around 10 levels worth) and randomly selects one level to play.
 
-### Level Mode
-1. Complete specific objectives within time/move limits
-2. Collect bugs by including them in words
-3. Break rocks by forming words adjacent to them
-4. Meet challenge requirements to win
 
-## Technical Architecture
+GridManager Integration: The LevelController tells GridManager to spawn the specific grid based on the selected level data.
 
-### Core Systems
-- **TileSelectionController**: Handles user input and word formation
-- **GridManager**: Manages tile grid creation and animations
-- **DataLoader**: Loads dictionary and level data
-- **ScoreManager**: Tracks scoring and statistics
-- **ChallengeHandler**: Manages level objectives
 
-### Design Patterns
-- **Singleton**: For manager classes
-- **Observer**: ScriptableObject events for loose coupling
-- **Strategy**: Different challenge types
-- **Component**: Modular tile abilities
+Tile Properties: When GridManager spawns tiles, it also initializes their properties (Normal, Rock, Bug) based on the level data.
 
-### Event System
-```csharp
-DataEventChannelSO newWordFormedEvent
-├── ScoreManager (scoring)
-├── TileAbilityManager (special tiles)
-├── EndlessLevelController (tile replacement)
-└── ChallengeHandler (objective tracking)
-```
 
-## Project Structure
+TileAbilityManager: There's a dedicated class managing tile abilities. When new words are formed, it determines what happens to special tiles (like how to destroy rocks or collect bugs).
 
-```
-Scripts/
-├── Core/
-│   ├── TileSelectionController.cs
-│   ├── GridManager.cs
-│   └── LetterTile.cs
-├── GameModes/
-│   ├── EndlessLevelController.cs
-│   └── LevelController.cs
-├── Data/
-│   ├── DataLoader.cs
-│   ├── LevelData.cs
-│   └── BoggleGame.cs
-├── Systems/
-│   ├── ScoreManager.cs
-│   ├── ChallengeHandler.cs
-│   └── TileAbilityManager.cs
-└── UI/
-    ├── MainMenuUI.cs
-    ├── LevelWon.cs
-    └── LevelFailed.cs
-```
 
-## Configuration
+What I Would Do Differently With More Time
+1. Improved Ability System
+My TileAbilityManager needs improvement. Currently, for this simple project there are only 2 abilities, but if there were 10+ abilities, there should ideally be a dedicated ability type management system with:
+Individual ability classes
+An ability factory pattern
+More scalable ability registration system
+2. Enhanced Challenge Management System
+The current challenge management system is simple and works fine, but I think it could be more scalable and better structured with:
+Strategy pattern for different challenge types
+More flexible objective combinations
+Better progression tracking
+Configurable challenge parameters
+3. Advanced Features
+More sophisticated word generation algorithms
+Save/load system for progression
 
-### Word Dictionary
-- Assign a .txt file with one word per line to DataLoader
-- Words are automatically converted to lowercase
-- Used for word validation
+Due to the limited time constraint, I prioritized:
+Functional architecture 
+Working features
+Clean separation of concerns 
+Event-driven design 
 
-### Level Data
-- JSON format with grid size, tile types, and objectives
-- Optional - system generates levels if not provided
-- See LevelData.cs for structure
-
-## Known Limitations
-
-- Basic word generation algorithm in endless mode
-- No object pooling (performance impact)
-- Simple scoring system (1 point per letter)
-- No save/persistence system
-- Limited error handling
-
-## Future Improvements
-
-- Object pooling for tile management
-- Advanced word generation algorithms
-- More sophisticated scoring system
-- Save/load game state
-- Additional special tile types
-- Sound effects and better animations
-
-## Development Notes
-
-**Time Constraint**: 6-8 hours
-**Focus**: Architecture and functionality over visual polish
-**Key Decisions**:
-- Event-driven architecture for modularity
-- ScriptableObject events for loose coupling
-- Modular challenge system for extensibility
-- Simple but effective tile selection mechanics
-
-## Technical Requirements Met
-
-- ✅ Two game modes (Endless/Levels)
-- ✅ 4x4 grid with drag selection
-- ✅ Scoring system with UI display
-- ✅ Dynamic letter replacement (Endless)
-- ✅ Special tiles (bugs/rocks) in Level mode
-- ✅ Three challenge types
-- ✅ JSON level data support
-- ✅ Clean architecture focus
-
-## Build Information
-
-- Target Platform: Android APK + PC Standalone
-- Unity Version: 2022.3.32f1
-- Dependencies: DOTween, TextMeshPro
-
----
-
-*This project prioritizes clean code architecture and game functionality over visual aesthetics, as specified in the assignment requirements.*
