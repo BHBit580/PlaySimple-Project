@@ -18,7 +18,7 @@ The TileSelectionController handles the formation of connections between tiles a
 
 The endless mode follows this sequence:
 
-1. **BoggleGame Class**: A dedicated class called BoggleGame creates a 2D character matrix using a word placement algorithm. **2D Character Arrays (char[,])**: The game board class returns a 2D character array, which my GridManager then uses to form the grid. The mastermind behind grid formation in endless mode is the BoggleGame class.
+1. **BoggleGame Class**: This class returns a 2D character array. The mastermind behind grid formation in endless mode is this class only, though the algorithm is quite simple.
 2. **EndlessLevelController**: This component retrieves the matrix from BoggleGame, initializes the GridManager, and begins grid spawning.
 
 ## Scoring System Clarification
