@@ -12,7 +12,7 @@ The system uses two main event types:
 
 The basic unit of the system is the LetterTile, with a GridManager that handles the spawning and destruction of LetterTile instances.
 
-The TileSelectionController handles the formation of connections between tiles and manages visual connection lines between selected tiles using dynamically created UI elements.
+The TileSelectionController handles the formation of connections between tiles and makes the word in the UI 
 
 ## Endless Mode Flow
 
